@@ -5,8 +5,11 @@ date: "2025-02-24"
 output: 
   rmdformats::readthedown:
 ---
+<center>
+![""](https://cdn.dribbble.com/userupload/21087755/file/original-8e60712234abc48e340ff564563ba420.gif)
+</center>
 
-```{r setup, message=FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(rmdformats)
 library(curl)
@@ -35,19 +38,31 @@ Part two to answer Q1 is calculating the standard deviation for each of the quan
 ```{r}
 pop_sd <- function(x) {
     sqrt(sum((x - mean(x))^2)/(length(x))) #standard deviation is taking the square root of the population variance here, i could have made it into a separate function for population variance but didn't feel like it
-}
 pop_sd(zombies$height)
 pop_sd(zombies$weight)
 pop_sd(zombies$age)
 pop_sd(zombies$zombies_killed)
 pop_sd(zombies$years_of_education)
 
-#I am wondering if there's a way to condense all of these together into one function instead of doing pop_sd over and over again? 
+#i am wondering if there's a way to condense all of these together into one function instead of doing pop_sd over and over again? 
 ```
 
 ## Use {ggplot} to make boxplots of each of these variables by gender.
 ```{r}
+par(mfrow = c(2, 3))
+boxplot(zombies$height)
+boxplot(zombies$weight)
+boxplot(zombies$age)
+boxplot(zombies$zombies_killed)
+boxplot(zombies$years_of_education)
 
+#WRONG^
+#YOU NEED TO USE GGPLOT
+p <- ggplot(data = d, aes(x = Gemder, y = log(Body_mass_female_mean)))  #define the variables
+p <- p + geom_boxplot()  #graph them in a boxplot
+p <- p + theme(axis.text.x = element_text(angle = 90))  #put x-axis names at 90deg
+p <- p + ylab("log(Female Body Mass)")  #rename y-axis title
+p  #show me the graph
 ```
 
 ## Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
