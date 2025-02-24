@@ -45,7 +45,7 @@ library(tidyverse)
 
 
 ## 5 Challenges I Faced
-#1.
+#1. Initially I struggled to add a toc because it wouldn’t let me knit the file when I was using the rmd formats package. I got this message: formal argument "toc" matched by multiple actual arguments. I deleted it and I suppose now it has a built in toc and therefore I don’t need to specify. Also I am sorry but this is lowkey an ugly theme I can’t lie.
 #2.
 #3.
 #4.
