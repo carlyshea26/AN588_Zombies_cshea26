@@ -15,18 +15,20 @@ library(tidyverse)
 
 ```{r}
 #First load the data (csv)
-f <- curl("https://github.com/fuzzyatelin/fuzzyatelin.github.io/blob/master/AN588_Spring25/zombies.csv")
-zombie <- read.csv(f, header = TRUE)
-head(zombie) #shortening reading frame to something more manageable 
+zombies <- read.csv("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/refs/heads/master/AN588_Spring25/zombies.csv", header = TRUE, stringsAsFactors = FALSE)
+head(zombies) #shortening reading frame to something more manageable 
 ```
-```{r}
-
-```
-
 
 ## Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
 ```{r}
+#shortening mean to m for creating abbreviations to determine population means
+summary(zombies) #one way to see mean values for all of the different columns
 
+mean.height <- mean(zombies$height); mean.height
+mean.weight <- mean(zombies$weight); mean.weight
+mean.age <- mean(zombies$age); mean.age
+mean.zombieskilled <- mean(zombies$zombies_killed); mean.zombieskilled
+mean.eduation <- mean(zombies$years_of_education); mean.eduation
 ```
 
 ## Use {ggplot} to make boxplots of each of these variables by gender.
@@ -59,6 +61,6 @@ head(zombie) #shortening reading frame to something more manageable
 #1. Initially I struggled to add a toc because it wouldn’t let me knit the file when I was using the rmd formats package. I got this message: formal argument "toc" matched by multiple actual arguments. I deleted it and I suppose now it has a built in toc and therefore I don’t need to specify. Also I am sorry but this is lowkey an ugly theme I can’t lie.
 
 #2.I struggled with loading my data using the curl function but after looking at the previous modules I realized that I needed to use quotation marks surrounding the link to the data set, oops!
-#3.
+#3.^ I ended up abandoning the use of the curl function because I thought that was the original issue (turns out that I didn't copy the url correctly and that I forgot to use the raw data csv link instead of the link to all of the zombies data). That was definitely a learning curve but I think I understand the correct procedure now. 
 #4.
 #5.
