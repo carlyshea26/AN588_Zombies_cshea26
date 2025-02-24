@@ -38,6 +38,7 @@ Part two to answer Q1 is calculating the standard deviation for each of the quan
 ```{r}
 pop_sd <- function(x) {
     sqrt(sum((x - mean(x))^2)/(length(x))) #standard deviation is taking the square root of the population variance here, i could have made it into a separate function for population variance but didn't feel like it
+}
 pop_sd(zombies$height)
 pop_sd(zombies$weight)
 pop_sd(zombies$age)
