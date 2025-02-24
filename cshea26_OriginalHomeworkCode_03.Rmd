@@ -1,0 +1,10 @@
+---
+title: "cshea26_OriginalHomeworkCode_03"
+author: "Carly S McDermott"
+date: "2025-02-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
