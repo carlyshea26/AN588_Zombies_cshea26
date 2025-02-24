@@ -31,9 +31,18 @@ mean.zombieskilled <- mean(zombies$zombies_killed); mean.zombieskilled
 mean.eduation <- mean(zombies$years_of_education); mean.eduation
 #both ways of doing this show the mean values for the sample, but the second method provides a more direct path to getting there 
 ```
-Part two to answer Q1 is calculating the standard deviation for each of the quantiative random variables: 
+Part two to answer Q1 is calculating the standard deviation for each of the quantitative random variables: 
 ```{r}
+pop_sd <- function(x) {
+    sqrt(sum((x - mean(x))^2)/(length(x))) #standard deviation is taking the square root of the population variance here, i could have made it into a separate function for population variance but didn't feel like it
+}
+pop_sd(zombies$height)
+pop_sd(zombies$weight)
+pop_sd(zombies$age)
+pop_sd(zombies$zombies_killed)
+pop_sd(zombies$years_of_education)
 
+#I am wondering if there's a way 
 ```
 
 ## Use {ggplot} to make boxplots of each of these variables by gender.
