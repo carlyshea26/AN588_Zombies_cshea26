@@ -2,9 +2,13 @@
 title: "cshea26_OriginalHomeworkCode_03"
 author: "Carly S McDermott"
 date: "2025-02-24"
-output: html_document
+output: 
+  rmdformats::readthedown:
 ---
 
-```{r setup, include=FALSE}
+```{r setup, message=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(rmdformats)
+library(curl)
+library(tidyverse)
 ```
