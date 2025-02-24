@@ -13,6 +13,17 @@ library(curl)
 library(tidyverse)
 ```
 
+```{r}
+#First load the data (csv)
+f <- curl("https://github.com/fuzzyatelin/fuzzyatelin.github.io/blob/master/AN588_Spring25/zombies.csv")
+zombie <- read.csv(f, header = TRUE)
+head(zombie) #shortening reading frame to something more manageable 
+```
+```{r}
+
+```
+
+
 ## Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
 ```{r}
 
@@ -46,7 +57,8 @@ library(tidyverse)
 
 ## 5 Challenges I Faced
 #1. Initially I struggled to add a toc because it wouldn’t let me knit the file when I was using the rmd formats package. I got this message: formal argument "toc" matched by multiple actual arguments. I deleted it and I suppose now it has a built in toc and therefore I don’t need to specify. Also I am sorry but this is lowkey an ugly theme I can’t lie.
-#2.
+
+#2.I struggled with loading my data using the curl function but after looking at the previous modules I realized that I needed to use quotation marks surrounding the link to the data set, oops!
 #3.
 #4.
 #5.
