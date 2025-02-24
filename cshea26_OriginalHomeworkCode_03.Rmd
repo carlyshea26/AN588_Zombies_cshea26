@@ -42,7 +42,7 @@ pop_sd(zombies$age)
 pop_sd(zombies$zombies_killed)
 pop_sd(zombies$years_of_education)
 
-#I am wondering if there's a way 
+#I am wondering if there's a way to condense all of these together into one function instead of doing pop_sd over and over again? 
 ```
 
 ## Use {ggplot} to make boxplots of each of these variables by gender.
