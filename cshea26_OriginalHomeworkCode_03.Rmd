@@ -21,7 +21,7 @@ library(gridExtra)
 ```{r}
 #First load the data (csv)
 zombies <- read.csv("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/refs/heads/master/AN588_Spring25/zombies.csv", header = TRUE, stringsAsFactors = FALSE)
-head(zombies) #shortening reading frame to something more manageable 
+head(zombies) #shortening reading frame to something more manageable; last time i tried doing this i realized my data didn't load correctly so doing this step as a check instead of calling all of the data 
 ```
 
 ## Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
