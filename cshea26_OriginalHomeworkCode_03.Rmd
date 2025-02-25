@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(rmdformats)
 library(curl)
 library(tidyverse)
+library(ggplot2)
+library(gridExtra)
 ```
 
 ```{r}
@@ -50,20 +52,36 @@ pop_sd(zombies$years_of_education)
 
 ## Use {ggplot} to make boxplots of each of these variables by gender.
 ```{r}
-par(mfrow = c(2, 3))
-boxplot(zombies$height)
-boxplot(zombies$weight)
-boxplot(zombies$age)
-boxplot(zombies$zombies_killed)
-boxplot(zombies$years_of_education)
+#I recognize that this looks insane and I fully believe there is a way to make it look less clutterred but I am unsure how
 
-#WRONG^
-#YOU NEED TO USE GGPLOT
-p <- ggplot(data = d, aes(x = Gemder, y = log(Body_mass_female_mean)))  #define the variables
-p <- p + geom_boxplot()  #graph them in a boxplot
-p <- p + theme(axis.text.x = element_text(angle = 90))  #put x-axis names at 90deg
-p <- p + ylab("log(Female Body Mass)")  #rename y-axis title
-p  #show me the graph
+grid.arrange(plot.height, plot.weight, plot.age,
+             plot.zombies_killed, plot.years_of_education, nrow = 2, ncol = 3) #doing this to make them all sit together on one page as 5 boxplots (similar to par function - i install the gridExtra package for this)
+
+#plot1
+plot.height <- ggplot(data = zombies, aes(x = gender, y = height, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE)  #define the variables
+plot.height <- plot.height + xlab("Gender") + ylab("Height") + theme_bw() +
+                ggtitle("Height") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+#hjust centers it by setting it equal t0 .5
+
+#plot2
+plot.weight <- ggplot(data = zombies, aes(x = gender, y = weight, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
+plot.weight <- plot.weight + xlab("Gender") + ylab("Weight") + theme_bw() +
+                ggtitle("Weight") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+
+#plot3
+plot.age <- ggplot(data = zombies, aes(x = gender, y = age, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
+plot.age <- plot.age + xlab("Gender") + ylab("Age") + theme_bw() +
+                ggtitle("Age") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+
+#plot4
+plot.zombies_killed <- ggplot(data = zombies, aes(x = gender, y = zombies_killed, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
+plot.zombies_killed <- plot.zombies_killed + xlab("Gender") + ylab("Zombies Killed") + theme_bw() +
+                ggtitle("Zombies Killed") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+
+#plot5
+plot.years_of_education <- ggplot(data = zombies, aes(x = gender, y = years_of_education, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
+plot.years_of_education <- plot.years_of_education + xlab("Gender") + ylab("Years of Education") + theme_bw() +
+                ggtitle("Years of Education") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
 ```
 
 ## Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
