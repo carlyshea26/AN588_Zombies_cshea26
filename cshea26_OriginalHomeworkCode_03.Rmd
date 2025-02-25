@@ -215,6 +215,6 @@ ci.years_of_education
 
 #3.^ I ended up abandoning the use of the curl function because I thought that was the original issue (turns out that I didn't copy the url correctly and that I forgot to use the raw data csv link instead of the link to all of the zombies data). That was definitely a learning curve but I think I understand the correct procedure now. 
 
-#4. Trying to work through the last two questions was super discouraging, I wish there was a way to make it so that I don't have to do the exact same process for each one (there very well could be a way to turn it into a function and I just have no clue).
+#4. Trying to work through the last two questions was super discouraging, I wish there was a way to make it so that I don't have to do the exact same process for each one (there very well could be a way to turn it into a function and I just have no clue). Also I am so confused about what this hint could mean: "Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…"
 
 #5.
