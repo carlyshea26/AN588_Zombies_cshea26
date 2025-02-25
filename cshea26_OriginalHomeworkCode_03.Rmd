@@ -133,14 +133,79 @@ Again we see here that the Years of Education and Number of Zombies Killed are n
 
 ## Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
 ```{r}
+set.seed(123) #i suppose i could also make a function here?
+#FOR HEIGHT
+s.height <- sample(zombies$height, 30, replace = FALSE)
+mean(s.height)
+sd(s.height)
+# time to figure out upper and lower bounds for the 95% CI
+sem.height <- sd(s.height)/sqrt(length(s.height))
+sem.height
+#figuring out confidence intervals based on that standard error of the mean sem
+lower <- mean(s.height) - qnorm(1 - 0.05/2) * sem.height  
+upper <- mean(s.height) + qnorm(1 - 0.05/2) * sem.height
+ci.height <- c(lower, upper)
+ci.height
+```
+```{r}
+#FOR WEIGHT
+set.seed(123)
+s.weight <- sample(zombies$weight, 30, replace = FALSE)
+mean(s.weight)
+sd(s.weight)
+sem.weight <- sd(s.weight)/sqrt(length(s.weight))
+sem.weight #standard error
+lower <- mean(s.weight) - qnorm(1 - 0.05/2) * sem.weight  
+upper <- mean(s.weight) + qnorm(1 - 0.05/2) * sem.weight
+ci.weight <- c(lower, upper)
+ci.weight
 
 ```
 
+```{r}
+#FOR AGE
+set.seed(123)
+s.age <- sample(zombies$age, 30, replace = FALSE)
+mean(s.age)
+sd(s.age)
+sem.age <- sd(s.age)/sqrt(length(s.age))
+sem.age #standard error
+lower <- mean(s.age) - qnorm(1 - 0.05/2) * sem.age  
+upper <- mean(s.age) + qnorm(1 - 0.05/2) * sem.age
+ci.age <- c(lower, upper)
+ci.age
+```
+```{r}
+#FOR ZOMBIES KILLED
+set.seed(123)
+s.zombies_killed <- sample(zombies$zombies_killed, 30, replace = FALSE)
+mean(s.zombies_killed)
+sd(s.zombies_killed)
+sem.zombies_killed <- sd(s.zombies_killed)/sqrt(length(s.zombies_killed))
+sem.zombies_killed #standard error
+lower <- mean(s.zombies_killed) - qnorm(1 - 0.05/2) * sem.zombies_killed  
+upper <- mean(s.zombies_killed) + qnorm(1 - 0.05/2) * sem.zombies_killed
+ci.zombies_killed <- c(lower, upper)
+ci.zombies_killed
+```
+```{r}
+#FOR YEARS OF EDUCATION
+set.seed(123)
+s.years_of_education <- sample(zombies$years_of_education, 30, replace = FALSE)
+mean(s.years_of_education)
+sd(s.years_of_education)
+sem.years_of_education <- sd(s.years_of_education)/sqrt(length(s.years_of_education))
+sem.years_of_education #standard error
+lower <- mean(s.years_of_education) - qnorm(1 - 0.05/2) * sem.years_of_education  
+upper <- mean(s.years_of_education) + qnorm(1 - 0.05/2) * sem.years_of_education
+ci.years_of_education <- c(lower, upper)
+ci.years_of_education
+#i am unsure if i did this section correctly
+```
 ## Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
 ```{r}
 
 ```
-
 
 ## 5 Challenges I Faced
 #1. Initially I struggled to add a toc because it wouldn’t let me knit the file when I was using the rmd formats package. I got this message: formal argument "toc" matched by multiple actual arguments. I deleted it and I suppose now it has a built in toc and therefore I don’t need to specify. Also I am sorry but this is lowkey an ugly theme I can’t lie.
