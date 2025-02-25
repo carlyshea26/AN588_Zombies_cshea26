@@ -105,8 +105,31 @@ Takeaways From Generating Two Scatterplots: Identifying Trends
 
 ## Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
 ```{r}
-
+par(mfrow = c(2, 3))
+hist(zombies$height, main = "Height", xlab="Height")
+hist(zombies$weight, main = "Weight", xlab="Weight" )
+hist(zombies$age, main = "Age", xlab= "Age")
+hist(zombies$zombies_killed, main = "Number of Zombies Killed", xlab= "Number of Zombies Killed") 
+hist(zombies$years_of_education, main = "Years of Education", xlab= "Years of Education")
 ```
+Based on the histograms I created above, the Height, Weight, and Age categories all follow normal distributions. The other two histograms for Number of Zombies Killed and Years of Education show a tail extending toward the right side, indicating they are not normal.
+
+```{r}
+#Looking at Q-Q plots now
+par(mfrow=c(2,3))
+qqnorm(zombies$height, main = "Height")
+qqline(zombies$height, col = "gray")
+qqnorm(zombies$weight, main = "Weight")
+qqline(zombies$weight, col = "gray")
+qqnorm(zombies$age, main = "Age")
+qqline(zombies$age, col = "gray")
+qqnorm(zombies$zombies_killed, main = "Zombies Killed")
+qqline(zombies$zombies_killed, col = "gray")
+qqnorm(zombies$years_of_education, main = "Years of Education")
+qqline(zombies$years_of_education, col = "gray")
+```
+Again we see here that the Years of Education and Number of Zombies Killed are not following the normal  distribution for a Q-Q plot I think these follow the Poisson Distribution instead (that or it is a right skewed histogram, I'm not entirely sure which).
+
 
 ## Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
 ```{r}
