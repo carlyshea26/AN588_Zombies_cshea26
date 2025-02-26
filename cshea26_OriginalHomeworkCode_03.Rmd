@@ -211,11 +211,6 @@ means_weight <- numeric(100)
 means_age <- numeric(100)
 means_zombies_killed <- numeric(100)
 means_years_of_education <- numeric(100)
-sd_height <- numeric(100)
-sd_weight <- numeric(100)
-sd_age <- numeric(100)
-sd_zombies_killed <- numeric(100)
-sd_years_of_education <- numeric(100)
 
 for (i in 1:100) {
   s.height <- sample(zombies$height, sample_size, replace = FALSE)
@@ -229,50 +224,46 @@ for (i in 1:100) {
   means_age[i] <- mean(s.age)
   means_zombies_killed[i] <- mean(s.zombies_killed)
   means_years_of_education[i] <- mean(s.years_of_education)
-  
-  sd_height[i] <- sd(s.height)
-  sd_weight[i] <- sd(s.weight)
-  sd_age[i] <- sd(s.age)
-  sd_zombies_killed[i] <- sd(s.zombies_killed)
-  sd_years_of_education[i] <- sd(s.years_of_education)
 }
 
-#now trying to figure out what the means are of for 100 replicates?
-summary_list <- list(
-  means_height, means_weight, means_age, means_zombies_killed, means_years_of_education)
-lapply(summary_list, summary)
+#now trying to figure out what the means are of for 100 replicates
+sampling_means <- data.frame(
+  Variable = c("Height", "Weight", "Age", "Zombies Killed", "Years of Education"),
+  Mean_of_Sampling_Distribution = c(
+    mean(means_height), 
+    mean(means_weight), 
+    mean(means_age), 
+    mean(means_zombies_killed), 
+    mean(means_years_of_education)
+  ),
+  SD_of_Sampling_Distribution = c(
+    sd(means_height), 
+    sd(means_weight), 
+    sd(means_age), 
+    sd(means_zombies_killed), 
+    sd(means_years_of_education) #i don't know if i should be taking the standard deviations of each replication or of the average at the end...kinda confused
+  ),
+  SEM_of_Sampling_Distribution = c(
+  sd(means_height)/sqrt(length(means_height)),
+  sd(means_weight)/sqrt(length(means_weight)),
+  sd(means_age)/sqrt(length(means_age)),
+  sd(means_zombies_killed)/sqrt(length(means_zombies_killed)),
+  sd(means_years_of_education)/sqrt(length(means_years_of_education))
+)
+  )
+#again i am confused about whether the SEM applies ot the average we take of all of the means or if i should be taking the SEM after finding the average of all of the means? 
+print(sampling_means)
 
-#printing all of the standard deviations for the replicates (i feel like this is kind of a waste of time though)
-list(sd_height, sd_weight, sd_age, sd_zombies_killed, sd_years_of_education)
-
-#giving up on looking at the actual data, now looking at the histograms
+#giving up on attempting to figure out the actual data, now looking at the histograms
 hist(means_height, main = "Histogram of Sampled Heights", xlab = "Mean Height")
 hist(means_weight, main = "Histogram of Sampled Weights", xlab = "Mean Weight")
 hist(means_age, main = "Histogram of Sampled Ages", xlab = "Mean Age")
 hist(means_zombies_killed, main = "Histogram of Zombies Killed", xlab = "Mean Zombies Killed")
 hist(means_years_of_education, main = "Histogram of Years of Education", xlab = "Mean Years of Education")
-
 ```
 
+Overall, the replicated data when creating 100 different means is very similar to the original sample of means that we calculated in question 4. The standard deviations are much lower when calculating them now after generating 100 different means for each variable. I suppose this makes sense as an increase in data sets will lead to a decrease in deviation from  the mean. As for the SEM, I am confused whether or not I should be looking at this value by first taking it for every sample and averaging it or averaging it at the end after I have combined all of the different sample means. As it is now, it looks like the SEM also decreased. Having so many distrubtions now makes the histograms for the Zombies_Killed and Years_of_Education look actually normally distributed now!
 
-```{r}
-#MAYBE ONE WAY TO DO IT
-set.seed(123)
-s2.height <- replicate(100, s.height) #taking samples that i created with the s."X" label in the question above to replicate for larger replication size
-s2.weight <- replicate(100, s.weight)
-s2.age <- replicate(100, s.age)
-s2.zombies_killed <- replicate(100, s.zombies_killed)
-s2.years_of_education <- replicate(100, s.years_of_education)
-
-#putting it in a data frame to make it look cleaner
-sampling_means <- data.frame(
-  Variable = c("Height", "Weight", "Age", "Zombies Killed", "Years of Education"),
-  Mean_of_Sampling_Distribution = c(mean(s2.height), mean(s2.weight), mean(s2.age), mean(s2.zombies_killed), mean(s2.years_of_education)),
-  SD_of_Sampling_Distribution = c(sd(s2.height), sd(s2.weight), sd(s2.age), sd(s2.zombies_killed), sd(s2.years_of_education))
-)
-print(sampling_means)
-
-```
 
 ## 5 Challenges I Faced
 
@@ -284,4 +275,4 @@ print(sampling_means)
 
 #4. Trying to work through the last two questions was super discouraging, I wish there was a way to make it so that I don't have to do the exact same process for each one (there very well could be a way to turn it into a function and I just have no clue). Also I am so confused about what this hint could mean: "Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…"
 
-#5.There were so many different parts to answer in the last two questions that I feel like I got lost in answering it. I have no idea how to consense this down into something easier to replicate (maybe a function that I could apply to all the different variables rather than writing each one again).
+#5.There were so many different parts to answer in the last two questions that I feel like I got lost in answering it. I have no idea how to condense this down into something easier to replicate (maybe a function that I could apply to all the different variables rather than writing each one again). The last one I was going back and forth on using the replicate function vs. the using the numeric 1:100 way (I ended up using this). I was also confused if we are supposed to take a sd for each of the 100 means or calculate one single one at the end?
