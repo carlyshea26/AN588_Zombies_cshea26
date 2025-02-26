@@ -255,6 +255,7 @@ sampling_means <- data.frame(
 print(sampling_means)
 
 #giving up on attempting to figure out the actual data, now looking at the histograms
+par(mfrow=c(2,3))
 hist(means_height, main = "Histogram of Sampled Heights", xlab = "Mean Height")
 hist(means_weight, main = "Histogram of Sampled Weights", xlab = "Mean Weight")
 hist(means_age, main = "Histogram of Sampled Ages", xlab = "Mean Age")
@@ -262,7 +263,7 @@ hist(means_zombies_killed, main = "Histogram of Zombies Killed", xlab = "Mean Zo
 hist(means_years_of_education, main = "Histogram of Years of Education", xlab = "Mean Years of Education")
 ```
 
-Overall, the replicated data when creating 100 different means is very similar to the original sample of means that we calculated in question 4. The standard deviations are much lower when calculating them now after generating 100 different means for each variable. I suppose this makes sense as an increase in data sets will lead to a decrease in deviation from  the mean. As for the SEM, I am confused whether or not I should be looking at this value by first taking it for every sample and averaging it or averaging it at the end after I have combined all of the different sample means. As it is now, it looks like the SEM also decreased. Having so many distrubtions now makes the histograms for the Zombies_Killed and Years_of_Education look actually normally distributed now!
+Overall, the replicated data when creating 100 different means is very similar to the original sample of means that we calculated in question 4. The standard deviations are much lower when calculating them now after generating 100 different means for each variable. I suppose this makes sense as an increase in data sets will lead to a decrease in deviation from  the mean. As for the SEM, I am confused whether or not I should be looking at this value by first taking it for every sample and averaging it or averaging it at the end after I have combined all of the different sample means. As it is now, it looks like the SEM also decreased. Having so many distributions now makes the histograms for the Zombies_Killed and Years_of_Education look a little more normally distributed now too!
 
 
 ## 5 Challenges I Faced
