@@ -1,0 +1,307 @@
+---
+title: "cshea26_OriginalHomeworkCode_03"
+author: "Carly S McDermott"
+date: "2025-02-24"
+output: 
+  rmdformats::readthedown:
+---
+
+<center>
+
+![""](https://cdn.dribbble.com/userupload/21087755/file/original-8e60712234abc48e340ff564563ba420.gif)
+
+</center>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(rmdformats)
+library(curl)
+library(tidyverse)
+library(ggplot2)
+library(gridExtra)
+```
+
+```{r}
+#First load the data (csv)
+zombies <- read.csv("C:/Users/Richard/Desktop/AN588 R Studio/Homework 3/zombies.csv", header = TRUE, stringsAsFactors = FALSE)
+head(zombies) #shortening reading frame to something more manageable; last time i tried doing this i realized my data didn't load correctly so doing this step as a check instead of calling all of the data 
+```
+
+## Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
+
+```{r}
+#shortening mean to m for creating abbreviations to determine population means
+summary(zombies) #one way to see mean values for all of the different columns
+
+mean.height <- mean(zombies$height); mean.height
+mean.weight <- mean(zombies$weight); mean.weight
+mean.age <- mean(zombies$age); mean.age
+mean.zombieskilled <- mean(zombies$zombies_killed); mean.zombieskilled
+mean.eduation <- mean(zombies$years_of_education); mean.eduation
+#both ways of doing this show the mean values for the sample, but the second method provides a more direct path to getting there 
+```
+
+Part two to answer Q1 is calculating the standard deviation for each of the quantitative random variables:
+
+```{r}
+pop_sd <- function(x) {
+    sqrt(sum((x - mean(x))^2)/(length(x))) #standard deviation is taking the square root of the population variance here, i could have made it into a separate function for population variance but didn't feel like it
+}
+pop_sd(zombies$height)
+pop_sd(zombies$weight)
+pop_sd(zombies$age)
+pop_sd(zombies$zombies_killed)
+pop_sd(zombies$years_of_education)
+
+#i am wondering if there's a way to condense all of these together into one function instead of doing pop_sd over and over again? 
+```
+
+Jon's Comment: "So you're off to a good start and getting the numbers. I would be more specific and adding them to a variable name, like "sd_height = pop_sd(zombies\$height)" and so forth. Oh, and change the \<-(for question 1) into "=", and see if that changes the results pulled out."
+
+## Use {ggplot} to make boxplots of each of these variables by gender.
+
+\*Jon's Comment: "I did an example on the first one for you. But you can put spaces between code, if you have + in front of it. Give it a try."
+
+```{r}
+#I recognize that this looks insane and I fully believe there is a way to make it look less cluttered but I am unsure how
+
+#plot1
+plot.height <- ggplot(data = zombies, aes(x = gender, y = height, fill = gender)) + 
+    geom_boxplot(na.rm = TRUE, show.legend = FALSE)  #define the variables
+plot.height <- plot.height + xlab("Gender") + ylab("Height") + 
+    theme_bw() + ggtitle("Height") + 
+    theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+ 
+#h just centers it by setting it equal t0 .5
+
+#plot2
+plot.weight <- ggplot(data = zombies, aes(x = gender, y = weight, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
+plot.weight <- plot.weight + xlab("Gender") + ylab("Weight") + theme_bw() +
+                ggtitle("Weight") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+
+#plot3
+plot.age <- ggplot(data = zombies, aes(x = gender, y = age, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
+plot.age <- plot.age + xlab("Gender") + ylab("Age") + theme_bw() +
+                ggtitle("Age") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+
+#plot4
+plot.zombies_killed <- ggplot(data = zombies, aes(x = gender, y = zombies_killed, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
+plot.zombies_killed <- plot.zombies_killed + xlab("Gender") + ylab("Zombies Killed") + theme_bw() +
+                ggtitle("Zombies Killed") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+
+#plot5
+plot.years_of_education <- ggplot(data = zombies, aes(x = gender, y = years_of_education, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
+plot.years_of_education <- plot.years_of_education + xlab("Gender") + ylab("Years of Education") + theme_bw() +
+                ggtitle("Years of Education") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+grid.arrange(plot.height, plot.weight, plot.age,
+             plot.zombies_killed, plot.years_of_education, nrow = 2, ncol = 3) #doing this to make them all sit together on one page as 5 boxplots (similar to par function - i install the gridExtra package for this)
+```
+
+## Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+
+\*Jon's Comment: Awesome use of the color palettes. Might have to try that myself sometime."
+
+```{r}
+scat.height <- ggplot(data = zombies, aes(x = age, y = height, color = age)) #making plot
+scat.height <- scat.height + scale_color_gradient(low = "blue", high = "green") #adding different colors to differentiate between the two scatterplots
+scat.height <- scat.height + xlab("Age") + ylab("Height") + theme_bw() #adding labels for axes
+scat.height <- scat.height + geom_point() #making scatterplot!
+scat.height
+
+scat.weight <- ggplot(data = zombies, aes(x = age, y = weight, color = age)) #making plot
+scat.weight <- scat.weight + scale_color_gradient(low = "pink", high = "purple")
+scat.weight <- scat.weight + xlab("Age") + ylab("Weight") + theme_bw() #adding labels for axes
+scat.weight <- scat.weight + geom_point() #making scatterplot!
+scat.weight
+
+#I want to combine them on one page to visualize the data together
+grid.arrange(scat.height, scat.weight, nrow = 1, ncol = 2)
+```
+
+Takeaways From Generating Two Scatterplots: Identifying Trends - I notice that when plotting Age vs. Weight and Age vs. Height, there appear to be positive correlations in both plots. Younger individuals are shown to be shorter and lower in weight. Differences across the two plots highlights greater variability in the Age vs. Weight, where there is less of a linear correlation (varies a lot)l
+
+## Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+
+```{r}
+par(mfrow = c(2, 3))
+hist(zombies$height, main = "Height", xlab="Height")
+hist(zombies$weight, main = "Weight", xlab="Weight" )
+hist(zombies$age, main = "Age", xlab= "Age")
+hist(zombies$zombies_killed, main = "Number of Zombies Killed", xlab= "Number of Zombies Killed") 
+hist(zombies$years_of_education, main = "Years of Education", xlab= "Years of Education")
+```
+
+Based on the histograms I created above, the Height, Weight, and Age categories all follow normal distributions. The other two histograms for Number of Zombies Killed and Years of Education show a tail extending toward the right side, indicating they are not normal.
+
+```{r}
+#Looking at Q-Q plots now
+par(mfrow=c(2,3))
+qqnorm(zombies$height, main = "Height")
+qqline(zombies$height, col = "gray")
+qqnorm(zombies$weight, main = "Weight")
+qqline(zombies$weight, col = "gray")
+qqnorm(zombies$age, main = "Age")
+qqline(zombies$age, col = "gray")
+qqnorm(zombies$zombies_killed, main = "Zombies Killed")
+qqline(zombies$zombies_killed, col = "gray")
+qqnorm(zombies$years_of_education, main = "Years of Education")
+qqline(zombies$years_of_education, col = "gray")
+```
+
+Again we see here that the Years of Education and Number of Zombies Killed are not following the normal distribution for a Q-Q plot I think these follow the Poisson Distribution instead (that or it is a right skewed histogram, I'm not entirely sure which).
+
+## Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+
+\*Jon's Comment: "Similar to my first comment, you can try a "mean_height = mean(height), sd_height = sd(height)" format to have them labeled in the results. Up to you."
+
+```{r}
+set.seed(123) #i suppose i could also make a function here?
+#FOR HEIGHT
+s.height <- sample(zombies$height, 30, replace = FALSE)
+mean(s.height)
+sd(s.height)
+# time to figure out upper and lower bounds for the 95% CI
+sem.height <- sd(s.height)/sqrt(length(s.height))
+sem.height
+#figuring out confidence intervals based on that standard error of the mean sem
+lower <- mean(s.height) - qnorm(1 - 0.05/2) * sem.height  
+upper <- mean(s.height) + qnorm(1 - 0.05/2) * sem.height
+ci.height <- c(lower, upper)
+ci.height
+```
+
+```{r}
+#FOR WEIGHT
+set.seed(123)
+s.weight <- sample(zombies$weight, 30, replace = FALSE)
+mean(s.weight)
+sd(s.weight)
+sem.weight <- sd(s.weight)/sqrt(length(s.weight))
+sem.weight #standard error
+lower <- mean(s.weight) - qnorm(1 - 0.05/2) * sem.weight  
+upper <- mean(s.weight) + qnorm(1 - 0.05/2) * sem.weight
+ci.weight <- c(lower, upper)
+ci.weight
+
+```
+
+```{r}
+#FOR AGE
+set.seed(123)
+s.age <- sample(zombies$age, 30, replace = FALSE)
+mean(s.age)
+sd(s.age)
+sem.age <- sd(s.age)/sqrt(length(s.age))
+sem.age #standard error
+lower <- mean(s.age) - qnorm(1 - 0.05/2) * sem.age  
+upper <- mean(s.age) + qnorm(1 - 0.05/2) * sem.age
+ci.age <- c(lower, upper)
+ci.age
+```
+
+```{r}
+#FOR ZOMBIES KILLED
+set.seed(123)
+s.zombies_killed <- sample(zombies$zombies_killed, 30, replace = FALSE)
+mean(s.zombies_killed)
+sd(s.zombies_killed)
+sem.zombies_killed <- sd(s.zombies_killed)/sqrt(length(s.zombies_killed))
+sem.zombies_killed #standard error
+lower <- mean(s.zombies_killed) - qnorm(1 - 0.05/2) * sem.zombies_killed  
+upper <- mean(s.zombies_killed) + qnorm(1 - 0.05/2) * sem.zombies_killed
+ci.zombies_killed <- c(lower, upper)
+ci.zombies_killed
+```
+
+```{r}
+#FOR YEARS OF EDUCATION
+set.seed(123)
+s.years_of_education <- sample(zombies$years_of_education, 30, replace = FALSE)
+mean(s.years_of_education)
+sd(s.years_of_education)
+sem.years_of_education <- sd(s.years_of_education)/sqrt(length(s.years_of_education))
+sem.years_of_education #standard error
+lower <- mean(s.years_of_education) - qnorm(1 - 0.05/2) * sem.years_of_education  
+upper <- mean(s.years_of_education) + qnorm(1 - 0.05/2) * sem.years_of_education
+ci.years_of_education <- c(lower, upper)
+ci.years_of_education
+#i am unsure if i did this section correctly
+```
+
+## Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+
+```{r}
+set.seed(123)
+sample_size <- 30
+means_height <- numeric(100)
+means_weight <- numeric(100)
+means_age <- numeric(100)
+means_zombies_killed <- numeric(100)
+means_years_of_education <- numeric(100)
+
+for (i in 1:100) {
+  s.height <- sample(zombies$height, sample_size, replace = FALSE)
+  s.weight <- sample(zombies$weight, sample_size, replace = FALSE)
+  s.age <- sample(zombies$age, sample_size, replace = FALSE)
+  s.zombies_killed <- sample(zombies$zombies_killed, sample_size, replace = FALSE)
+  s.years_of_education <- sample(zombies$years_of_education, sample_size, replace = FALSE)
+  
+  means_height[i] <- mean(s.height)
+  means_weight[i] <- mean(s.weight)
+  means_age[i] <- mean(s.age)
+  means_zombies_killed[i] <- mean(s.zombies_killed)
+  means_years_of_education[i] <- mean(s.years_of_education)
+}
+
+#now trying to figure out what the means are of for 100 replicates
+sampling_means <- data.frame(
+  Variable = c("Height", "Weight", "Age", "Zombies Killed", "Years of Education"),
+  Mean_of_Sampling_Distribution = c(
+    mean(means_height), 
+    mean(means_weight), 
+    mean(means_age), 
+    mean(means_zombies_killed), 
+    mean(means_years_of_education)
+  ),
+  SD_of_Sampling_Distribution = c(
+    sd(means_height), 
+    sd(means_weight), 
+    sd(means_age), 
+    sd(means_zombies_killed), 
+    sd(means_years_of_education) #i don't know if i should be taking the standard deviations of each replication or of the average at the end...kinda confused
+  ),
+  SEM_of_Sampling_Distribution = c(
+  sd(means_height)/sqrt(length(means_height)),
+  sd(means_weight)/sqrt(length(means_weight)),
+  sd(means_age)/sqrt(length(means_age)),
+  sd(means_zombies_killed)/sqrt(length(means_zombies_killed)),
+  sd(means_years_of_education)/sqrt(length(means_years_of_education))
+)
+  )
+#again i am confused about whether the SEM applies ot the average we take of all of the means or if i should be taking the SEM after finding the average of all of the means? 
+print(sampling_means)
+
+#giving up on attempting to figure out the actual data, now looking at the histograms
+par(mfrow=c(2,3))
+hist(means_height, main = "Histogram of Sampled Heights", xlab = "Mean Height")
+hist(means_weight, main = "Histogram of Sampled Weights", xlab = "Mean Weight")
+hist(means_age, main = "Histogram of Sampled Ages", xlab = "Mean Age")
+hist(means_zombies_killed, main = "Histogram of Zombies Killed", xlab = "Mean Zombies Killed")
+hist(means_years_of_education, main = "Histogram of Years of Education", xlab = "Mean Years of Education")
+```
+
+Overall, the replicated data when creating 100 different means is very similar to the original sample of means that we calculated in question 4. The standard deviations are much lower when calculating them now after generating 100 different means for each variable. I suppose this makes sense as an increase in data sets will lead to a decrease in deviation from the mean. As for the SEM, I am confused whether or not I should be looking at this value by first taking it for every sample and averaging it or averaging it at the end after I have combined all of the different sample means. As it is now, it looks like the SEM also decreased. Having so many distributions now makes the histograms for the Zombies_Killed and Years_of_Education look a little more normally distributed now too!
+
+## 5 Challenges I Faced
+
+#1. Initially I struggled to add a toc because it wouldn’t let me knit the file when I was using the rmd formats package. I got this message: formal argument "toc" matched by multiple actual arguments. I deleted it and I suppose now it has a built in toc and therefore I don’t need to specify. Also I am sorry but this is lowkey an ugly theme I can’t lie.
+
+#2.I struggled with loading my data using the curl function but after looking at the previous modules I realized that I needed to use quotation marks surrounding the link to the data set, oops!
+
+#3.\^ I ended up abandoning the use of the curl function because I thought that was the original issue (turns out that I didn't copy the url correctly and that I forgot to use the raw data csv link instead of the link to all of the zombies data). That was definitely a learning curve but I think I understand the correct procedure now.
+
+#4. Trying to work through the last two questions was super discouraging, I wish there was a way to make it so that I don't have to do the exact same process for each one (there very well could be a way to turn it into a function and I just have no clue). Also I am so confused about what this hint could mean: "Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…"
+
+#5.There were so many different parts to answer in the last two questions that I feel like I got lost in answering it. I have no idea how to condense this down into something easier to replicate (maybe a function that I could apply to all the different variables rather than writing each one again). The last one I was going back and forth on using the replicate function vs. the using the numeric 1:100 way (I ended up using this). I was also confused if we are supposed to take a sd for each of the 100 means or calculate one single one at the end?
+
+\*Jon's Comment: "Overall, it looks well put out. To answer your number 5, there may or may be a way to condense everything. My opinion is that, if you can, try using the tab and enter key to sort your codes in separate category. I think that can be a way to help sort it and make it look presentable, because there's bound to be multiple lines of code for one function, so I think we can just make the best of it and try to make it look presentable."
