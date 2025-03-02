@@ -148,19 +148,22 @@ scat.weight
 grid.arrange(scat.height, scat.weight, nrow = 1, ncol = 2)
 ```
 Takeaways From Generating Two Scatterplots: Identifying Trends 
-- I notice that when plotting Age vs. Weight and Age vs. Height, there appear to be positive correlations in both plots. Younger individuals are shown to be shorter and lower in weight. Differences across the two plots highlights greater variability in the Age vs. Weight, where there is less of a linear correlation (varies a lot)l
+* I notice that when plotting Age vs. Weight and Age vs. Height, there appear to be positive correlations in both plots. Younger individuals are shown to be shorter and lower in weight. Differences across the two plots highlights greater variability in the Age vs. Weight, where there is less of a linear correlation (varies a lot)l
 
-## Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
+## Question 4.1 
+Using histograms check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
 ```{r}
 par(mfrow = c(2, 3))
-hist(zombies$height, main = "Height", xlab="Height")
-hist(zombies$weight, main = "Weight", xlab="Weight" )
-hist(zombies$age, main = "Age", xlab= "Age")
-hist(zombies$zombies_killed, main = "Number of Zombies Killed", xlab= "Number of Zombies Killed") 
-hist(zombies$years_of_education, main = "Years of Education", xlab= "Years of Education")
+hist(zombies$height, main = "Height", xlab="Height", col= "azure", border= "black")
+hist(zombies$weight, main = "Weight", xlab="Weight", col= "skyblue", border= "black")
+hist(zombies$age, main = "Age", xlab= "Age", col="cornflowerblue", border = "black")
+hist(zombies$zombies_killed, main = "Number of Zombies Killed", xlab= "Number of Zombies Killed", col="cyan", border= "black") 
+hist(zombies$years_of_education, main = "Years of Education", xlab= "Years of Education", col="lightblue", border= "black")
 ```
 Based on the histograms I created above, the Height, Weight, and Age categories all follow normal distributions. The other two histograms for Number of Zombies Killed and Years of Education show a tail extending toward the right side, indicating they are not normal.
 
+## Question 4.2 
+Using Q-Q plots check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
 ```{r}
 #Looking at Q-Q plots now
 par(mfrow=c(2,3))
@@ -178,7 +181,10 @@ qqline(zombies$years_of_education, col = "gray")
 Again we see here that the Years of Education and Number of Zombies Killed are not following the normal  distribution for a Q-Q plot I think these follow the Poisson Distribution instead (that or it is a right skewed histogram, I'm not entirely sure which).
 
 
-## Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+## Question 5 
+Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+
+## 5.1
 ```{r}
 set.seed(123) #i suppose i could also make a function here?
 #FOR HEIGHT
@@ -194,6 +200,7 @@ upper <- mean(s.height) + qnorm(1 - 0.05/2) * sem.height
 ci.height <- c(lower, upper)
 ci.height
 ```
+## 5.2 
 ```{r}
 #FOR WEIGHT
 set.seed(123)
@@ -206,9 +213,8 @@ lower <- mean(s.weight) - qnorm(1 - 0.05/2) * sem.weight
 upper <- mean(s.weight) + qnorm(1 - 0.05/2) * sem.weight
 ci.weight <- c(lower, upper)
 ci.weight
-
 ```
-
+## 5.3
 ```{r}
 #FOR AGE
 set.seed(123)
@@ -222,6 +228,7 @@ upper <- mean(s.age) + qnorm(1 - 0.05/2) * sem.age
 ci.age <- c(lower, upper)
 ci.age
 ```
+## 5.4
 ```{r}
 #FOR ZOMBIES KILLED
 set.seed(123)
@@ -235,6 +242,7 @@ upper <- mean(s.zombies_killed) + qnorm(1 - 0.05/2) * sem.zombies_killed
 ci.zombies_killed <- c(lower, upper)
 ci.zombies_killed
 ```
+## 5.5
 ```{r}
 #FOR YEARS OF EDUCATION
 set.seed(123)
@@ -247,8 +255,13 @@ lower <- mean(s.years_of_education) - qnorm(1 - 0.05/2) * sem.years_of_education
 upper <- mean(s.years_of_education) + qnorm(1 - 0.05/2) * sem.years_of_education
 ci.years_of_education <- c(lower, upper)
 ci.years_of_education
-#i am unsure if i did this section correctly
 ```
+
+```{r}
+#making an array to display all of these samples cleanly
+
+```
+
 ## Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
 ```{r}
 set.seed(123)
