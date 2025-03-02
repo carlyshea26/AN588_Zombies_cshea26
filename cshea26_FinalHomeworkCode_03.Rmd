@@ -24,13 +24,17 @@ zombies <- read.csv("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.g
 head(zombies) #shortening reading frame to something more manageable; last time i tried doing this i realized my data didn't load correctly so doing this step as a check instead of calling all of the data 
 ```
 
-## 1.1 Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
+## Question 1.1 
+
+Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.
 ```{r}
 #shortening mean to m for creating abbreviations to determine population means
 summary(zombies) #one way to see mean values for all of the different columns
 ```
 
-## 1.2 Other way to calculate the population mean for each quantitative random variable
+## Question 1.2 
+
+Other way to calculate the population mean for each quantitative random variable
 ```{r}
 mean.height <- mean(zombies$height) 
 mean.weight <- mean(zombies$weight)
@@ -46,7 +50,9 @@ colnames(samp_stats) <- "Mean"
 samp_stats
 #both ways of doing this show the mean values for the sample, but the second method provides a more direct path to getting there 
 ```
-## 1.3: Calculating the standard deviation for each of the quantitative random variables 
+## Question 1.3
+
+Calculating the standard deviation for each of the quantitative random variables 
 ```{r}
 pop_sd <- function(x) {
     sqrt(sum((x - mean(x))^2)/(length(x))) #standard deviation is taking the square root of the population variance here, i could have made it into a separate function for population variance but didn't feel like it
@@ -65,40 +71,66 @@ rownames(samp_stats) <- names
 colnames(samp_stats) <- "Standard Deviation"
 samp_stats
 ```
-## 2.1 Use {ggplot} to make boxplots of each of these variables by gender. 
-```{r}
+## Question 2 
 
-#plot1
-plot.height <- ggplot(data = zombies, aes(x = gender, y = height, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE)  #define the variables
-plot.height <- plot.height + xlab("Gender") + ylab("Height") + theme_bw() +
-                ggtitle("Height") + theme(plot.title = element_text(hjust = 0.5)) 
+Use {ggplot} to make boxplots of each of these variables by gender. 
+```{r}
+#setting colors 
+colors <- c("#26bf3b", "#1d9bd1", "#d11d89")
+
+#height
+plot.height <- ggplot(data = zombies, aes(x = gender, y = height, fill = gender)) +
+  geom_boxplot(na.rm = TRUE, show.legend = FALSE) + 
+  xlab("Gender") + 
+  ylab("Height") + 
+  theme_bw() +
+  scale_fill_manual(values = colors)
+plot.height <- plot.height + ggtitle("Height") + theme(plot.title = element_text(hjust = 0.5)) 
 #adding title to the plot
 #hjust centers it by setting it equal to .5
 
-#plot2
-plot.weight <- ggplot(data = zombies, aes(x = gender, y = weight, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
-plot.weight <- plot.weight + xlab("Gender") + ylab("Weight") + theme_bw() +
-                ggtitle("Weight") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+#weight
+plot.weight <- ggplot(data = zombies, aes(x = gender, y = weight, fill = gender)) +
+  geom_boxplot(na.rm = TRUE, show.legend = FALSE) +
+  xlab("Gender") +
+  ylab("Weight") + 
+  theme_bw() +
+  scale_fill_manual(values = colors)
+plot.weight <- plot.weight + ggtitle("Weight") + theme(plot.title = element_text(hjust = 0.5))
 
-#plot3
-plot.age <- ggplot(data = zombies, aes(x = gender, y = age, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
-plot.age <- plot.age + xlab("Gender") + ylab("Age") + theme_bw() +
-                ggtitle("Age") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+#age
+plot.age <- ggplot(data = zombies, aes(x = gender, y = age, fill = gender)) +
+  geom_boxplot(na.rm = TRUE, show.legend = FALSE) +
+  xlab("Gender") + 
+  ylab("Age") + 
+  theme_bw() +
+  scale_fill_manual(values = colors)
+plot.age <- plot.age + ggtitle("Age") + theme(plot.title = element_text(hjust = 0.5))
 
-#plot4
-plot.zombies_killed <- ggplot(data = zombies, aes(x = gender, y = zombies_killed, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
-plot.zombies_killed <- plot.zombies_killed + xlab("Gender") + ylab("Zombies Killed") + theme_bw() +
-                ggtitle("Zombies Killed") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+#zombies killed
+plot.zombies_killed <- ggplot(data = zombies, aes(x = gender, y = zombies_killed, fill = gender)) + 
+  geom_boxplot(na.rm = TRUE, show.legend = FALSE) +
+  xlab("Gender") + 
+  ylab("Zombies Killed") +
+  theme_bw() +
+  scale_fill_manual(values = colors)
+plot.zombies_killed <- plot.zombies_killed + ggtitle("Zombies Killed") + theme(plot.title = element_text(hjust = 0.5))
 
-#plot5
-plot.years_of_education <- ggplot(data = zombies, aes(x = gender, y = years_of_education, fill = gender)) + geom_boxplot(na.rm = TRUE, show.legend = FALSE) 
-plot.years_of_education <- plot.years_of_education + xlab("Gender") + ylab("Years of Education") + theme_bw() +
-                ggtitle("Years of Education") + theme(plot.title = element_text(hjust = 0.5)) # adding title to the plot
+#years of education
+plot.years_of_education <- ggplot(data = zombies, aes(x = gender, y = years_of_education, fill = gender)) + 
+  geom_boxplot(na.rm = TRUE, show.legend = FALSE) +
+  xlab("Gender") + 
+  ylab("Years of Education") + 
+  theme_bw() +
+  scale_fill_manual(values = colors)
+plot.years_of_education <- plot.years_of_education + ggtitle("Years of Education") + theme(plot.title = element_text(hjust = 0.5)) 
+
 grid.arrange(plot.height, plot.weight, plot.age,
              plot.zombies_killed, plot.years_of_education, nrow = 2, ncol = 3) #doing this to make them all sit together on one page as 5 boxplots (similar to par function - i install the gridExtra package for this)
 ```
 
-## Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
+## Question 3
+Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way?
 ```{r}
 scat.height <- ggplot(data = zombies, aes(x = age, y = height, color = age)) #making plot
 scat.height <- scat.height + scale_color_gradient(low = "blue", high = "green") #adding different colors to differentiate between the two scatterplots
