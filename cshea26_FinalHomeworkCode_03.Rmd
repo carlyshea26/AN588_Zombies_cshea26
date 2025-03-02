@@ -65,7 +65,7 @@ rownames(samp_stats) <- names
 colnames(samp_stats) <- "Standard Deviation"
 samp_stats
 ```
-## Use {ggplot} to make boxplots of each of these variables by gender.
+## 2.1 Use {ggplot} to make boxplots of each of these variables by gender.
 ```{r}
 
 #plot1
