@@ -181,10 +181,9 @@ qqline(zombies$years_of_education, col = "gray")
 Again we see here that the Years of Education and Number of Zombies Killed are not following the normal  distribution for a Q-Q plot I think these follow the Poisson Distribution instead (that or it is a right skewed histogram, I'm not entirely sure which).
 
 
-## Question 5 
-Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…
+## Question 5.1 
+Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CI's on slightly different code than for the normal…
 
-## 5.1
 ```{r}
 set.seed(123) #i suppose i could also make a function here?
 #FOR HEIGHT
@@ -195,12 +194,12 @@ sd(s.height)
 sem.height <- sd(s.height)/sqrt(length(s.height))
 sem.height
 #figuring out confidence intervals based on that standard error of the mean sem
-lower <- mean(s.height) - qnorm(1 - 0.05/2) * sem.height  
-upper <- mean(s.height) + qnorm(1 - 0.05/2) * sem.height
-ci.height <- c(lower, upper)
+h.lower <- mean(s.height) - qnorm(1 - 0.05/2) * sem.height  
+h.upper <- mean(s.height) + qnorm(1 - 0.05/2) * sem.height
+ci.height <- c(h.lower, h.upper)
 ci.height
 ```
-## 5.2 
+## Question 5.2 
 ```{r}
 #FOR WEIGHT
 set.seed(123)
@@ -209,12 +208,12 @@ mean(s.weight)
 sd(s.weight)
 sem.weight <- sd(s.weight)/sqrt(length(s.weight))
 sem.weight #standard error
-lower <- mean(s.weight) - qnorm(1 - 0.05/2) * sem.weight  
-upper <- mean(s.weight) + qnorm(1 - 0.05/2) * sem.weight
-ci.weight <- c(lower, upper)
+w.lower <- mean(s.weight) - qnorm(1 - 0.05/2) * sem.weight  
+w.upper <- mean(s.weight) + qnorm(1 - 0.05/2) * sem.weight
+ci.weight <- c(w.lower, w.upper)
 ci.weight
 ```
-## 5.3
+## Question 5.3
 ```{r}
 #FOR AGE
 set.seed(123)
@@ -223,12 +222,12 @@ mean.age <- mean(s.age)
 sd.age <- (s.age)
 sem.age <- sd(s.age)/sqrt(length(s.age))
 sem.age #standard error
-lower <- mean(s.age) - qnorm(1 - 0.05/2) * sem.age  
-upper <- mean(s.age) + qnorm(1 - 0.05/2) * sem.age
-ci.age <- c(lower, upper)
+a.lower <- mean(s.age) - qnorm(1 - 0.05/2) * sem.age  
+a.upper <- mean(s.age) + qnorm(1 - 0.05/2) * sem.age
+ci.age <- c(a.lower, a.upper)
 ci.age
 ```
-## 5.4
+## Question 5.4
 ```{r}
 #FOR ZOMBIES KILLED
 set.seed(123)
@@ -237,12 +236,12 @@ mean_killed <- mean(s.zombies_killed)
 sd_killed <- sd(s.zombies_killed)
 sem.zombies_killed <- sd(s.zombies_killed)/sqrt(length(s.zombies_killed))
 sem.zombies_killed #standard error
-lower <- mean(s.zombies_killed) - qnorm(1 - 0.05/2) * sem.zombies_killed  
-upper <- mean(s.zombies_killed) + qnorm(1 - 0.05/2) * sem.zombies_killed
-ci.zombies_killed <- c(lower, upper)
+z.lower <- mean(s.zombies_killed) - qnorm(1 - 0.05/2) * sem.zombies_killed  
+z.upper <- mean(s.zombies_killed) + qnorm(1 - 0.05/2) * sem.zombies_killed
+ci.zombies_killed <- c(z.lower, z.upper)
 ci.zombies_killed
 ```
-## 5.5
+## Quesion 5.5
 ```{r}
 #FOR YEARS OF EDUCATION
 set.seed(123)
@@ -251,16 +250,22 @@ mean(s.years_of_education)
 sd(s.years_of_education)
 sem.years_of_education <- sd(s.years_of_education)/sqrt(length(s.years_of_education))
 sem.years_of_education #standard error
-lower <- mean(s.years_of_education) - qnorm(1 - 0.05/2) * sem.years_of_education  
-upper <- mean(s.years_of_education) + qnorm(1 - 0.05/2) * sem.years_of_education
-ci.years_of_education <- c(lower, upper)
+y.lower <- mean(s.years_of_education) - qnorm(1 - 0.05/2) * sem.years_of_education  
+y.upper <- mean(s.years_of_education) + qnorm(1 - 0.05/2) * sem.years_of_education
+ci.years_of_education <- c(y.lower, y.upper)
 ci.years_of_education
 ```
 ```{r}
 #making an array to display all of these samples cleanly
-age_stats <- matrix(c(mean.age, sd.age, sem.age, ci.age), 
-                    nrow = 2, ncol= 4 
-                     dimnames = list(NULL, c("Mean", "SD", "SEM", "95% CI")))
+summary_table <- data.frame(
+  Category = c("Height (cm)", "Weight (kg)", "Age (years)", "Zombies Killed", "Years of Education"),
+  `Mean` = c(mean(s.height), mean(s.weight), mean(s.age), mean(s.zombies_killed), mean(s.years_of_education)),
+  `Standard Deviation (SD)` = c(sd(s.height), sd(s.weight), sd(s.age), sd(s.zombies_killed), sd(s.years_of_education)),
+  `Standard Error of Mean (SEM)` = c(sem.height, sem.weight, sem.age, sem.zombies_killed, sem.years_of_education),
+  `Confidence Interval (Lower)` = c(h.lower, w.lower, a.lower, z.lower, y.lower),
+  `Confidence Interval (Upper)` = c(h.upper, w.upper, a.upper, z.upper, y.upper)
+)
+print(summary_table)
 ```
 
 ## Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
@@ -331,10 +336,15 @@ Overall, the replicated data when creating 100 different means is very similar t
 
 #1. Initially I struggled to add a toc because it wouldn’t let me knit the file when I was using the rmd formats package. I got this message: formal argument "toc" matched by multiple actual arguments. I deleted it and I suppose now it has a built in toc and therefore I don’t need to specify. Also I am sorry but this is lowkey an ugly theme I can’t lie.
 
-#2.I struggled with loading my data using the curl function but after looking at the previous modules I realized that I needed to use quotation marks surrounding the link to the data set, oops!
+#2. I struggled with loading my data using the curl function but after looking at the previous modules I realized that I needed to use quotation marks surrounding the link to the data set, oops!
 
 #3.^ I ended up abandoning the use of the curl function because I thought that was the original issue (turns out that I didn't copy the url correctly and that I forgot to use the raw data csv link instead of the link to all of the zombies data). That was definitely a learning curve but I think I understand the correct procedure now. 
 
 #4. Trying to work through the last two questions was super discouraging, I wish there was a way to make it so that I don't have to do the exact same process for each one (there very well could be a way to turn it into a function and I just have no clue). Also I am so confused about what this hint could mean: "Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CIs on slightly different code than for the normal…"
 
-#5.There were so many different parts to answer in the last two questions that I feel like I got lost in answering it. I have no idea how to condense this down into something easier to replicate (maybe a function that I could apply to all the different variables rather than writing each one again). The last one I was going back and forth on using the replicate function vs. the using the numeric 1:100 way (I ended up using this). I was also confused if we are supposed to take a sd for each of the 100 means or calculate one single one at the end?
+#5. There were so many different parts to answer in the last two questions that I feel like I got lost in answering it. I have no idea how to condense this down into something easier to replicate (maybe a function that I could apply to all the different variables rather than writing each one again). The last one I was going back and forth on using the replicate function vs. the using the numeric 1:100 way (I ended up using this). I was also confused if we are supposed to take a sd for each of the 100 means or calculate one single one at the end
+
+## Comments Regarding Changes I Made (Post Peer Commentary):
+* I ended up really liking the way that Gentry spaced out their homework into different question sections (i.e. 1.1, 1.2, etc.). I kind of adapted my homework in a similar way, which made it feel more manageable and less like giant chunks of code.
+* I tried to make my data more presentable by creating arrays to display calculated means and standard deviations. 
+* I also played around with colors to change how the tables looked (aside from the q-q plots, which i felt like color could really complicate it and make it hard to look at).
