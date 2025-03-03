@@ -1,7 +1,7 @@
 ---
 title: "cshea26_OriginalHomeworkCode_03"
 author: "Carly S McDermott"
-date: "2025-02-24"
+date: "2025-03-02"
 output: 
   rmdformats::readthedown:
 ---
@@ -57,14 +57,14 @@ Calculating the standard deviation for each of the quantitative random variables
 pop_sd <- function(x) {
     sqrt(sum((x - mean(x))^2)/(length(x))) #standard deviation is taking the square root of the population variance here, i could have made it into a separate function for population variance but didn't feel like it
 }
-#Changes Now After Jon's Comments
+#changes Now After Jon's Comments
 sd_height = pop_sd(zombies$height)
 sd_weight = pop_sd(zombies$weight)
 sd_age = pop_sd(zombies$age)
 sd_zk = pop_sd(zombies$zombies_killed)
 sd_yoe = pop_sd(zombies$years_of_education)
 
-#Plotting the inputs above in an array
+#plotting the inputs above in an array
 stat_array <- c(sd_height, sd_weight, sd_age, sd_zk, sd_yoe)
 samp_stats <- matrix(stat_array, nrow=5, ncol=1, byrow=TRUE)
 rownames(samp_stats) <- names
@@ -144,11 +144,11 @@ scat.weight <- scat.weight + xlab("Age") + ylab("Weight") + theme_bw() #adding l
 scat.weight <- scat.weight + geom_point() #making scatterplot!
 scat.weight
 
-#I want to combine them on one page to visualize the data together
+#i want to combine them on one page to visualize the data together
 grid.arrange(scat.height, scat.weight, nrow = 1, ncol = 2)
 ```
 Takeaways From Generating Two Scatterplots: Identifying Trends 
-* I notice that when plotting Age vs. Weight and Age vs. Height, there appear to be positive correlations in both plots. Younger individuals are shown to be shorter and lower in weight. Differences across the two plots highlights greater variability in the Age vs. Weight, where there is less of a linear correlation (varies a lot)l
+* I notice that when plotting Age vs. Weight and Age vs. Height, there appear to be positive correlations in both plots. Younger individuals are shown to be shorter and lower in weight. Differences across the two plots highlights greater variability in the Age vs. Weight, where there is less of a linear correlation (varies a lot)
 
 ## Question 4.1 
 Using histograms check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
@@ -160,7 +160,7 @@ hist(zombies$age, main = "Age", xlab= "Age", col="cornflowerblue", border = "bla
 hist(zombies$zombies_killed, main = "Number of Zombies Killed", xlab= "Number of Zombies Killed", col="cyan", border= "black") 
 hist(zombies$years_of_education, main = "Years of Education", xlab= "Years of Education", col="lightblue", border= "black")
 ```
-Based on the histograms I created above, the Height, Weight, and Age categories all follow normal distributions. The other two histograms for Number of Zombies Killed and Years of Education show a tail extending toward the right side, indicating they are not normal.
+Based on the histograms I created above, the Height, Weight, and Age categories all follow normal distributions. The other two histograms for Number of Zombies Killed and Years of Education show a tail extending toward the right side, indicating they are not normal (possibly Poisson).
 
 ## Question 4.2 
 Using Q-Q plots check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?
@@ -178,8 +178,7 @@ qqline(zombies$zombies_killed, col = "gray")
 qqnorm(zombies$years_of_education, main = "Years of Education")
 qqline(zombies$years_of_education, col = "gray")
 ```
-Again we see here that the Years of Education and Number of Zombies Killed are not following the normal  distribution for a Q-Q plot I think these follow the Poisson Distribution instead (that or it is a right skewed histogram, I'm not entirely sure which).
-
+Again we see here that the Years of Education and Number of Zombies Killed are not following the normal  distribution for a Q-Q plot I think these follow the Poisson Distribution instead (which makes sense because a Poisson would be right skewed when the mean is lower).
 
 ## Question 5.1 
 Now use the sample() function to sample ONE subset of 30 zombie survivors (without replacement) from this population and calculate the mean and sample standard deviation for each variable. Also estimate the standard error for each variable, and construct the 95% confidence interval for each mean. Note that for the variables that are not drawn from the normal distribution, you may need to base your estimate of the CI's on slightly different code than for the normal…
@@ -268,15 +267,18 @@ summary_table <- data.frame(
 print(summary_table)
 ```
 
-## Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]? What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+## Question 6.1
+Now draw 99 more random samples of 30 zombie apocalypse survivors, and calculate the mean for each variable for each of these samples. Together with the first sample you drew, you now have a set of 100 means for each variable (each based on 30 observations), which constitutes a sampling distribution for each variable. 
 ```{r}
 set.seed(123)
 sample_size <- 30
-means_height <- numeric(100)
-means_weight <- numeric(100)
-means_age <- numeric(100)
-means_zombies_killed <- numeric(100)
-means_years_of_education <- numeric(100)
+num_samples <- 100
+
+means_height <- numeric(num_samples) #making a vector to store the means
+means_weight <- numeric(num_samples)
+means_age <- numeric(num_samples)
+means_zombies_killed <- numeric(num_samples)
+means_years_of_education <- numeric(num_samples)
 
 for (i in 1:100) {
   s.height <- sample(zombies$height, sample_size, replace = FALSE)
@@ -291,7 +293,16 @@ for (i in 1:100) {
   means_zombies_killed[i] <- mean(s.zombies_killed)
   means_years_of_education[i] <- mean(s.years_of_education)
 }
+```
 
+```{r}
+#testing if it worked
+print(means_height)
+```
+
+## Question 6.2
+What are the means and standard deviations of this distribution of means for each variable? How do the standard deviations of means compare to the standard errors estimated in [5]?
+```{r}
 #now trying to figure out what the means are of for 100 replicates
 sampling_means <- data.frame(
   Variable = c("Height", "Weight", "Age", "Zombies Killed", "Years of Education"),
@@ -307,29 +318,33 @@ sampling_means <- data.frame(
     sd(means_weight), 
     sd(means_age), 
     sd(means_zombies_killed), 
-    sd(means_years_of_education) #i don't know if i should be taking the standard deviations of each replication or of the average at the end...kinda confused
+    sd(means_years_of_education)
   ),
   SEM_of_Sampling_Distribution = c(
-  sd(means_height)/sqrt(length(means_height)),
-  sd(means_weight)/sqrt(length(means_weight)),
-  sd(means_age)/sqrt(length(means_age)),
-  sd(means_zombies_killed)/sqrt(length(means_zombies_killed)),
-  sd(means_years_of_education)/sqrt(length(means_years_of_education))
-)
+    sd(means_height), 
+    sd(means_weight), 
+    sd(means_age), 
+    sd(means_zombies_killed), 
+    sd(means_years_of_education)
   )
-#again i am confused about whether the SEM applies ot the average we take of all of the means or if i should be taking the SEM after finding the average of all of the means? 
-print(sampling_means)
-
-#giving up on attempting to figure out the actual data, now looking at the histograms
-par(mfrow=c(2,3))
-hist(means_height, main = "Histogram of Sampled Heights", xlab = "Mean Height")
-hist(means_weight, main = "Histogram of Sampled Weights", xlab = "Mean Weight")
-hist(means_age, main = "Histogram of Sampled Ages", xlab = "Mean Age")
-hist(means_zombies_killed, main = "Histogram of Zombies Killed", xlab = "Mean Zombies Killed")
-hist(means_years_of_education, main = "Histogram of Years of Education", xlab = "Mean Years of Education")
+)
+#here for sem, we don't need to divide again by the square root of 100 because we already have created a distribution of means (which is something i didn't realize before) 
+#here, the standard error represents the true standard deviation
+sampling_means
 ```
 
-Overall, the replicated data when creating 100 different means is very similar to the original sample of means that we calculated in question 4. The standard deviations are much lower when calculating them now after generating 100 different means for each variable. I suppose this makes sense as an increase in data sets will lead to a decrease in deviation from  the mean. As for the SEM, I am confused whether or not I should be looking at this value by first taking it for every sample and averaging it or averaging it at the end after I have combined all of the different sample means. As it is now, it looks like the SEM also decreased. Having so many distributions now makes the histograms for the Zombies_Killed and Years_of_Education look a little more normally distributed now too!
+## Question 6.3
+What do these sampling distributions look like (a graph might help here)? Are they normally distributed? What about for those variables that you concluded were not originally drawn from a normal distribution?
+```{r}
+par(mfrow=c(2,3))
+hist(means_height, main = "Histogram of Sampled Heights", xlab = "Mean Height", col="azure" , border = "black")
+hist(means_weight, main = "Histogram of Sampled Weights", xlab = "Mean Weight", col="skyblue" , border = "black")
+hist(means_age, main = "Histogram of Sampled Ages", xlab = "Mean Age", col="cornflowerblue" , border = "black")
+hist(means_zombies_killed, main = "Histogram of Zombies Killed", xlab = "Mean Zombies Killed", col="cyan" , border = "black")
+hist(means_years_of_education, main = "Histogram of Years of Education", xlab = "Mean Years of Education", col="lightblue" , border = "black")
+```
+
+Overall, the replicated data when creating 100 different means is very similar to the original sample of means that we calculated in question 4. The standard deviations are much lower when calculating them now after generating 100 different means for each variable. I suppose this makes sense as an increase in data sets will lead to a decrease in deviation from  the mean. As for the SEM, it remains pretty much the same as it was for the estimated prediciton of the SEM based on one sample. The difference in calcuating now when we have 100 iterations generated is that we no longer divide by the square root of the length of the sample means (as we already have created a distribution of means and it represents the true standard error) As it is now, it looks like the SEM also decreased. Having so many distributions now makes the histograms for the Zombies_Killed and Years_of_Education look a little more normally distributed now too!
 
 
 ## 5 Challenges I Faced
